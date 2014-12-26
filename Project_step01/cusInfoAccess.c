@@ -21,14 +21,14 @@ int AddCusInfo(char *ID, char *name, char *num)
 {
 	cusList[numOfCustomer] = (cusInfo *)malloc(sizeof(cusInfo));
 	
-	if(cusList[numOfCustomer] == NULL) return 0;
+	if (cusList[numOfCustomer] == NULL) return 0;
 
 	strcpy(cusList[numOfCustomer]->ID, ID);
 	strcpy(cusList[numOfCustomer]->name, name);
 	strcpy(cusList[numOfCustomer]->phoneNum, num);
 	
 	numOfCustomer++;
-	if(numOfCustomer >= MAX_CUSTOMER) return 0;
+	if (numOfCustomer >= MAX_CUSTOMER) return 0;
 
 	return numOfCustomer;
 }
@@ -42,9 +42,9 @@ cusInfo *GetCusPtrByID(char *ID)
 {
 	int index;
 
-	for(index = 0; index < numOfCustomer; index++)
+	for (index = 0; index < numOfCustomer; index++)
 	{
-		if(!strcmp(cusList[index]->ID, ID))
+		if (!strcmp(cusList[index]->ID, ID))
 		return cusList[index];
 	}
 
@@ -60,9 +60,9 @@ int IsRegistID(char *ID)
 {
 	int index;
 
-	for(index = 0; index < numOfCustomer; index++)
+	for (index = 0; index < numOfCustomer; index++)
 	{
-		if(!strcmp(ID, cusList[index]->ID))
+		if (!strcmp(ID, cusList[index]->ID))
 		{
 			puts("해당 ID는 사용 중에 있습니다. 다른 ID를 선택해 주세요");
 			return -1;

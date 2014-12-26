@@ -23,9 +23,9 @@ void RegistCustomer(void)
 	fputs("ID 입력 : ", stdout);
 	scanf("%s", ID);
 
-	while(1)
+	while (1)
 	{
-		if(IsRegistID(ID) == -1)
+		if (IsRegistID(ID) == -1)
 		{
 			scanf("%s", ID);
 		}
@@ -45,7 +45,7 @@ void RegistCustomer(void)
 	}
 
 	puts("가입이 완료되었습니다.");
-	while(getchar() != '\n');
+	while (getchar() != '\n');
 
 	getchar();
 
@@ -66,7 +66,7 @@ void SearchCusInfo(void)
 	scanf("%s", ID);
 
 	pCus = GetCusPtrByID(ID);
-	if(pCus == NULL)
+	if (pCus == NULL)
 		puts("찾는 ID 가 존재하지 않습니다.");
 	else
 		ShowCustomerInfo(pCus);

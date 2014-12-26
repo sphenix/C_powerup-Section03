@@ -21,7 +21,7 @@ int AddCusInfo(char *ID, char *name, char *num)
 {
 	cusInfo *pCus;
 	
-	if(numOfCustomer >= MAX_CUSTOMER)
+	if (numOfCustomer >= MAX_CUSTOMER)
 		return 0;
 
 	pCus = (cusInfo *)malloc(sizeof(cusInfo));
@@ -44,9 +44,9 @@ cusInfo *GetCusPtrByID(char *ID)
 {
 	int i;
 
-	for(i = 0; i < numOfCustomer; i++)
+	for (i = 0; i < numOfCustomer; i++)
 	{
-		if(!strcmp(cusList[i]->ID, ID))
+		if (!strcmp(cusList[i]->ID, ID))
 		return cusList[i];
 	}
 
@@ -62,7 +62,7 @@ int IsRegistID(char *ID)
 {
 	cusInfo *pCus = GetCusPtrByID(ID);
 
-	if(pCus==0)
+	if (pCus==0)
 		return 0;
 	else
 		return 1;

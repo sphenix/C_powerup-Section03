@@ -15,13 +15,13 @@ int main(void)
 {
 	int inputMenu = 0;
 
-	while(1)
+	while (1)
 	{
 		ShowMenu();
 		scanf("%d", &inputMenu);
-		while(getchar() != '\n');
+		while (getchar() != '\n');
 
-		switch(inputMenu)
+		switch (inputMenu)
 		{
 		case CUS_REGIST:
 			RegistCustomer();
@@ -32,7 +32,7 @@ int main(void)
 			break;
 		}
 
-		if(inputMenu == QUIT)
+		if (inputMenu == QUIT)
 		{
 			puts("이용해 주셔서 고마워요~");
 			break;

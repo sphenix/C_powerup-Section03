@@ -23,7 +23,7 @@ void RegistCustomer(void)
 	fputs("ID 입력 : ", stdout);
 	gets(ID);
 
-	if(IsRegistID(ID))
+	if (IsRegistID(ID))
 	{
 		puts("해당 ID는 사용 중에 있습니다. 다른 ID를 선택해 주세요");
 		getchar();
@@ -61,7 +61,7 @@ void SearchCusInfo(void)
 	gets(ID);
 
 	cusPtr = GetCusPtrByID(ID);
-	if(cusPtr == 0)
+	if (cusPtr == 0)
 	{
 		puts("존재하지 않는 ID입니다.");
 		getchar();
