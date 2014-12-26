@@ -1,4 +1,4 @@
-/* Name : cusInfoAccess.c	ver	1.0
+/* Name : cusInfoAccess.c	ver	1.1
  * Content : 고객 정보 저장 및 참조 함수들의 정의
  * Implementation : YSW
  *
@@ -19,16 +19,18 @@ static int numOfCustomer = 0;
  */
 int AddCusInfo(char *ID, char *name, char *num)
 {
-	cusList[numOfCustomer] = (cusInfo *)malloc(sizeof(cusInfo));
+	cusInfo *pCus;
 	
-	if(cusList[numOfCustomer] == NULL) return 0;
+	if(numOfCustomer >= MAX_CUSTOMER)
+		return 0;
 
-	strcpy(cusList[numOfCustomer]->ID, ID);
-	strcpy(cusList[numOfCustomer]->name, name);
-	strcpy(cusList[numOfCustomer]->phoneNum, num);
+	pCus = (cusInfo *)malloc(sizeof(cusInfo));
 	
-	numOfCustomer++;
-	if(numOfCustomer >= MAX_CUSTOMER) return 0;
+	strcpy(pCus->ID, ID);
+	strcpy(pCus->name, name);
+	strcpy(pCus->phoneNum, num);
+	
+	cusList[numOfCustomer++] = pCus;
 
 	return numOfCustomer;
 }
@@ -40,15 +42,15 @@ int AddCusInfo(char *ID, char *name, char *num)
  */
 cusInfo *GetCusPtrByID(char *ID)
 {
-	int index;
+	int i;
 
-	for(index = 0; index < numOfCustomer; index++)
+	for(i = 0; i < numOfCustomer; i++)
 	{
-		if(!strcmp(cusList[index]->ID, ID))
-		return cusList[index];
+		if(!strcmp(cusList[i]->ID, ID))
+		return cusList[i];
 	}
 
-	return NULL;
+	return (cusInfo *)0;
 }
 
 /* 함 수 : int IsRegistID(char *ID)
@@ -58,17 +60,12 @@ cusInfo *GetCusPtrByID(char *ID)
  */
 int IsRegistID(char *ID)
 {
-	int index;
+	cusInfo *pCus = GetCusPtrByID(ID);
 
-	for(index = 0; index < numOfCustomer; index++)
-	{
-		if(!strcmp(ID, cusList[index]->ID))
-		{
-			puts("해당 ID는 사용 중에 있습니다. 다른 ID를 선택해 주세요");
-			return -1;
-		}
-	}
-	return 0;
+	if(pCus==0)
+		return 0;
+	else
+		return 1;
 }
 
 /* end fo file */

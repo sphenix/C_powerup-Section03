@@ -18,38 +18,33 @@ void RegistCustomer(void)
 {
 	char ID[ID_LEN];
 	char name[NAME_LEN];
-	char num[PHONE_LEN];
+	char phoneNum[PHONE_LEN];
 
 	fputs("ID 입력 : ", stdout);
-	scanf("%s", ID);
+	gets(ID);
 
-	while(1)
+	if(IsRegistID(ID))
 	{
-		if(IsRegistID(ID) == -1)
-		{
-			scanf("%s", ID);
-		}
-		else break;
+		puts("해당 ID는 사용 중에 있습니다. 다른 ID를 선택해 주세요");
+		getchar();
+		return;
 	}
 	
 	fputs("이름 입력 : ", stdout);
-	scanf("%s", name);
+	gets(name);
 
 	fputs("전화번호 입력 : ", stdout);
-	scanf("%s", num);
+	gets(phoneNum);
 	
-	if (!AddCusInfo(ID, name, num)) 
+	if (!AddCusInfo(ID, name, phoneNum)) 
 	{
-		puts("등록에 실패 했습니다.");
+		puts("정상적인 데이터 저장에 실패하였습니다.");
+		getchar();
 		return;
 	}
 
 	puts("가입이 완료되었습니다.");
-	while(getchar() != '\n');
-
 	getchar();
-
-	return;
 }
 
 /* 함 수 : void SearchCusInfo(void)
@@ -60,20 +55,20 @@ void RegistCustomer(void)
 void SearchCusInfo(void)
 {
 	char ID[ID_LEN];
-	cusInfo *pCus;
+	cusInfo *cusPtr;
 
 	fputs("찾을 ID 입력 : ", stdout);
-	scanf("%s", ID);
+	gets(ID);
 
-	pCus = GetCusPtrByID(ID);
-	if(pCus == NULL)
-		puts("찾는 ID 가 존재하지 않습니다.");
-	else
-		ShowCustomerInfo(pCus);
+	cusPtr = GetCusPtrByID(ID);
+	if(cusPtr == 0)
+	{
+		puts("존재하지 않는 ID입니다.");
+		getchar();
+		return;
+	}
 
-	getchar();
-
-	return;
+	ShowCustomerInfo(cusPtr);
 }
 
 /* end of file */
