@@ -1,4 +1,4 @@
-/* Name : cusManager.c	ver 1.2
+/* Name : cusManager	ver 1.2
  * Content : 고객 관련 업무 처리 함수들의 정의
  * Implementation : YSW
  * 
@@ -79,9 +79,12 @@ void SearchCusInfo(void)
  */
 void RentDVD(void)
 {
-	char ISBN(ISBN_LEN);
+	char ISBN[ISBN_LEN];
+	char ID[ID_LEN];
 	cusInfo *cusPtr;
+	// dvdInfo datadDVD;
 	dvdInfo *pDVD;
+	unsigned int rentDay;
 	
 	fputs("대여 DVD ISBN 입력 : ", stdout);
 	gets(ISBN);
@@ -92,30 +95,20 @@ void RentDVD(void)
 		getchar();
 		return;
 	}
+
+	pDVD = GetDVDPtrByISBN(ISBN);	
 	
-	for (index = 0; index < numOfDVD; index++)
-	{
-		if (!strcmp(ISBN, pDVD[index]->name)) 
-			break;
-	}
-	
-	if (index >= numOfDVD)
-	{
-		return;
-	}
-	
-	if ((pDVD[index]->rentState) == RENTED)
+	if ((pDVD->rentState) == RENTED)
 	{
 		puts("대여 중이라 대여가 불가능 합니다.");
 		getchar();
 		return;
-		
 	}
-
+	
 	puts("대여가 가능 합니다. 대여 과정을 진행 합니다.");
 
 	fputs("대여 고객 ID 입력 : ", stdout);
-	gets();
+	gets(ID);
 
 	cusPtr = GetCusPtrByID(ID);
 	if (cusPtr == 0)
@@ -124,6 +117,20 @@ void RentDVD(void)
 		getchar();
 		return;
 	}
+		
+	fputs("대여 날짜 입력 : ", stdout);
+	scanf("%u", &rentDay);
+		
+	strcpy(pDVD->rentList[pDVD->numOfRentCus].cusID,ID);
+	pDVD->rentList[pDVD->numOfRentCus].rentDay = rentDay;
+	pDVD->rentState = RENTED;
+
+	while(getchar() != '\n');
+		
+	(pDVD->numOfRentCus)++;
+		
+	puts("대여가 완료되었습니다.");
+	return;
 }
 
 /* 함 수 d ReturnDVD(void)

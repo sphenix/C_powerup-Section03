@@ -11,6 +11,9 @@
 void RegistCustomer(void);
 void SearchCusInfo(void);
 
+void RentDVD(void);
+void ReturnDVD(void);
+
 #endif
 /* end of file */
 

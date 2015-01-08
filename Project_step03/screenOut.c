@@ -77,7 +77,7 @@ void ShowGenre(int genre)
 	}
 }
 
-void ShowDVDRentList(dvdInfo *pDVD)
+void ShowDVDRentList()
 {
 	
 }

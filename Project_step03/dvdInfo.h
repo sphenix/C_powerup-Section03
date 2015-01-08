@@ -17,7 +17,7 @@
 enum {ACTION = 1, COMIC, SF, ROMANTIC};
 enum {RENTED, RETURNED};
 
-tyepdef struct __dvdRentInfo
+typedef struct __dvdRentInfo
 {
 	char cusID[ID_LEN];
 	unsigned int rentDay;

@@ -32,6 +32,9 @@ int AddDVDInfo(char *ISBN, char *title, int genre)
 	strcpy(pDVD->title, title);
 	pDVD->genre = genre;
 	
+	pDVD->numOfRentCus = 0;
+	pDVD->rentState = RETURNED;
+
 	dvdList[numOfDVD++] = pDVD;
 
 	return numOfDVD;
