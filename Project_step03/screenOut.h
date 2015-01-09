@@ -15,6 +15,8 @@ void ShowMenu(void);
 void ShowCustomerInfo(cusInfo *pCus);
 void ShowDVDInfo(dvdInfo *pDVD);
 void ShowGenre(int genre);
-void ShowDVDRentList()
+void ShowCustomerInfoForRentList(char *ID);
+void ShowDVDRentListByISBN(void);
+
 #endif
 /* end of file */

@@ -44,12 +44,13 @@ int main(void)
 			RentDVD();
 			break;
 		
-		case DVD_RETURN:
-			ShowDVDRentList();
-			break;
-	
+
 		case DVD_RENTCUS:
-			returndvd();
+			ShowDVDRentListByISBN();
+			break;
+		
+		case DVD_RETURN:
+			ReturnDVD();
 			break;
 		}
 

@@ -140,6 +140,33 @@ void RentDVD(void)
  */
 void ReturnDVD(void)
 {
+	char ISBN[ISBN_LEN];
+	// dvdInfo datadDVD;
+	dvdInfo *pDVD;
+	
+	fputs("반납 DVD ISBN 입력 : ", stdout);
+	gets(ISBN);
+	
+	if (!IsRegistISBN(ISBN))
+	{
+		puts("등록되지 않은 ISBN 입니다.");
+		getchar();
+		return;
+	}
+
+	pDVD = GetDVDPtrByISBN(ISBN);	
+	
+	if ((pDVD->rentState) == RETURNED)
+	{
+		puts("대여되지 않은 DVD 입니다.");
+		getchar();
+		return;
+	}
+	
+	pDVD->rentState = RETURNED;
+
+	puts("반납이 완료되었습니다.");
+	return;
 
 }
 /* end of file */

@@ -8,6 +8,8 @@
 #include "cusInfo.h"
 #include "dvdInfo.h"
 #include "screenOut.h"
+#include "cusInfoAccess.h"
+#include "dvdInfoAccess.h" 
 
 /* 프로그램 사용을 위한 메뉴 */
 void ShowMenu(void)
@@ -44,6 +46,20 @@ void ShowCustomerInfo(cusInfo *pCus)
 	getchar();
 }
 
+void ShowCustomerInfoForRentList(char *ID)
+{
+	cusInfo *pCus;
+	pCus = GetCusPtrByID(ID);	
+	
+	printf("+--------------------------- \n");
+	printf("| => ID : %s \n", pCus->ID);
+	printf("| => 이름 : %s \n", pCus->name);
+	printf("| => 전화번호 : %s \n", pCus->phoneNum);
+	printf("+--------------------------- \n\n");
+	
+}
+
+
 /* DVD 기본 정보 출력 */
 void ShowDVDInfo(dvdInfo *pDVD)
 {
@@ -77,9 +93,28 @@ void ShowGenre(int genre)
 	}
 }
 
-void ShowDVDRentList()
+void ShowDVDRentListByISBN()
 {
+	char ISBN[ISBN_LEN];
+	dvdInfo *pDVD;
+	cusInfo *cusPtr;
+	int i;
+
+	fputs("찾는 ISBN 입력: ", stdout);
+	gets(ISBN);
 	
+	pDVD = GetDVDPtrByISBN(ISBN);
+	
+	for (i = 0; i < pDVD->numOfRentCus; i++)
+	{
+		printf("대여일: %u\n", pDVD->rentList[i].rentDay);
+		cusPtr = GetCusPtrByID(pDVD->rentList[i].cusID);		
+		ShowCustomerInfoForRentList(cusPtr->ID);
+	}
+	
+	puts("조회를 완료하였습니다.");
+	getchar();
+
 }
 /* end of file */
 
