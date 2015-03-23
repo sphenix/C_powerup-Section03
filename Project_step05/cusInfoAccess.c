@@ -4,7 +4,6 @@
  *
  * Last modified	2014/12/26
  */
-
 #include "common.h"
 #include "cusInfo.h"
 
@@ -21,9 +20,19 @@ static int numOfCustomer = 0;
 int AddCusInfo(char *ID, char *name, char *num)
 {
 	cusInfo *pCus;
-	
+	FILE  *fp;
+
 	if (numOfCustomer >= MAX_CUSTOMER)
 		return 0;
+    
+    fp = fopen(CUSINFOBKUP_FILE, "rb+");
+
+
+    if (fp == NULL)
+    {
+        fprintf(stderr, "cusinfo.dat error! \n");
+        return -1;
+    }
 
 	pCus = (cusInfo *)malloc(sizeof(cusInfo));
 	
@@ -32,6 +41,15 @@ int AddCusInfo(char *ID, char *name, char *num)
 	strcpy(pCus->phoneNum, num);
 	
 	cusList[numOfCustomer++] = pCus;
+   
+//    fseek(fp, 0L, SEEK_SET);
+    printf("numofCustomer  : %d \n", numOfCustomer); 
+    fwrite(&numOfCustomer, sizeof(int), 1, fp);
+    //fcolse(fp);
+
+    fseek(fp, 0L, SEEK_END);
+    fwrite((void *)pCus, sizeof(cusInfo), 1, fp);
+    fclose(fp);
 
 	return numOfCustomer;
 }
