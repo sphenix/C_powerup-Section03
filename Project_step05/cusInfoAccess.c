@@ -9,6 +9,7 @@
 #include "cusInfo.h"
 
 #define MAX_CUSTOMER	100
+#define CUSINFOBKUP_FILE    "cusinfo.dat"
 
 static cusInfo	*cusList[MAX_CUSTOMER];
 static int numOfCustomer = 0;

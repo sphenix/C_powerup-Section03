@@ -11,6 +11,7 @@
 #include "dvdInfoAccess.h"
 
 #define MAX_DVD	100
+#define DVDINFOBKUP_FILE    "dvdinfo.dat"
 
 static dvdInfo	*dvdList[MAX_DVD];
 static int numOfDVD = 0;

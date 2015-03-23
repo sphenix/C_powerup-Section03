@@ -11,6 +11,7 @@
 #include "screenOut.h"
 
 #define RENT_LEN    100
+#define RENTINFOBKUP_FILE   "rentinfo.dat"
 
 static dvdRentInfo rentList[RENT_LEN];
 static int numOfRentCus = 0;
