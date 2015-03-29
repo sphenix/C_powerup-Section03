@@ -16,7 +16,7 @@ int main(void)
 {
 	int inputMenu = 0;
 
-    LoadFromFile();
+    cusLoadFromFile();
 
 	while (1)
 	{

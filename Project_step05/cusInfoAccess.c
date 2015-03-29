@@ -6,6 +6,7 @@
  */
 #include "common.h"
 #include "cusInfo.h"
+#include "cusInfoAccess.h"
 
 #define MAX_CUSTOMER	100
 #define CUSINFOBKUP_FILE    "cusinfo.dat"
@@ -25,14 +26,6 @@ int AddCusInfo(char *ID, char *name, char *num)
 	if (numOfCustomer >= MAX_CUSTOMER)
 		return 0;
     
-    fp = fopen(CUSINFOBKUP_FILE, "rb+");
-
-    if (fp == NULL)
-    {
-        fprintf(stderr, "cusinfo.dat error! \n");
-        return -1;
-    }
-
 	pCus = (cusInfo *)malloc(sizeof(cusInfo));
 	
 	strcpy(pCus->ID, ID);
@@ -43,12 +36,8 @@ int AddCusInfo(char *ID, char *name, char *num)
    
 //    fseek(fp, 0L, SEEK_SET);
     printf("numofCustomer  : %d \n", numOfCustomer); 
-    fwrite(&numOfCustomer, sizeof(int), 1, fp);
-    //fcolse(fp);
 
-    fseek(fp, 0L, SEEK_END);
-    fwrite((void *)pCus, sizeof(cusInfo), 1, fp);
-    fclose(fp);
+    cusStoreToFile();
 
 	return numOfCustomer;
 }
@@ -86,12 +75,62 @@ int IsRegistID(char *ID)
 		return 1;
 }
 
-/* 함 수 : int IsRegistID(char *ID)
- * 기 능 : 가입된 ID인지 확인
- * 반 환 : 가입 되었으면 1, 아니면 0 반환
+/* 함 수 : int LoadFromFile(void)
+ * 기 능 : 저장된 파일로 부터 데이터 읽기
+ * 반 환 : 성공하면 0, 실패하면 -1 반환
  *
  */
-int LoadFromFile(void)
+int cusLoadFromFile(void)
+{   
+	cusInfo *pCus;
+    FILE *fp;
+    int i;
+
+//  if (numOfCustomer >= MAX_CUSTOMER)
+//  return -1;
+    
+    if ((fp = fopen(CUSINFOBKUP_FILE, "rb+")) == NULL)
+    {
+        fp = fopen(CUSINFOBKUP_FILE, "wb+");
+        fclose(fp);
+        return 0;
+    }
+
+    if (fp == NULL)
+    {
+        fprintf(stderr, "cusinfo.dat error! \n");
+        return -1;
+    }
+
+	
+    fread(&numOfCustomer, sizeof(int), 1, fp);
+//  printf("read : numCus %d \n", numOfCustomer); 
+
+    for (i = 0; i < numOfCustomer; i++)
+    {
+	    pCus = (cusInfo *)malloc(sizeof(cusInfo));
+        fread(pCus->ID, sizeof(char), ID_LEN, fp);
+//        printf("pCus->ID : %s \n", pCus->ID); 
+        fread(pCus->name, sizeof(char), NAME_LEN, fp);
+//        printf("pCus->name : %s \n", pCus->name); 
+        fread(pCus->phoneNum, sizeof(char), PHONE_LEN, fp);
+//        printf("pCus->phoneNum : %s \n", pCus->phoneNum); 
+        
+    	cusList[i] = pCus;
+    }
+    
+    fclose(fp);
+
+	return 0;
+}
+
+
+/* 함 수 : int StoreToFile(void)
+ * 기 능 : 파일에 데이터 저장
+ * 반 환 : 성공하면 0, 실패하면 -1 반환
+ *
+ */
+int cusStoreToFile(void)
 {   
 	cusInfo *pCus;
     FILE *fp;
@@ -114,25 +153,20 @@ int LoadFromFile(void)
     }
 
 	
-    fread(&numOfCustomer, sizeof(int), 1, fp);
-    printf("read : numCus %d \n", numOfCustomer); 
+    fwrite(&numOfCustomer, sizeof(int), 1, fp);
+//  printf("read : numCus %d \n", numOfCustomer); 
+
     for (i = 0; i < numOfCustomer; i++)
     {
-	    pCus = (cusInfo *)malloc(sizeof(cusInfo));
-        fread(pCus->ID, sizeof(char), ID_LEN, fp);
-        printf("pCus->ID : %s \n", pCus->ID); 
-        fread(pCus->name, sizeof(char), NAME_LEN, fp);
-        printf("pCus->name : %s \n", pCus->name); 
-        fread(pCus->phoneNum, sizeof(char), PHONE_LEN, fp);
-        printf("pCus->phoneNum : %s \n", pCus->phoneNum); 
-        
-    	cusList[i] = pCus;
+        pCus = cusList[i]; 
+        fwrite((void *) pCus, sizeof(cusInfo), 1, fp);
     }
     
     fclose(fp);
 
 	return 0;
-
-
 }
+
+
+
 /* end fo file */
