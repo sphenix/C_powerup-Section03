@@ -7,6 +7,7 @@
 
 #include "common.h"
 #include "blManager.h"
+#include "cusInfoAccess.h"
 #include "screenOut.h"
 
 enum {CUS_REGIST=1, CUS_SEARCH, DVD_REGIST, DVD_SEARCH, DVD_RENT, DVD_RETURN, DVD_RENT_ALLCUS, DVD_CUS_ALLRENT, QUIT};
@@ -14,6 +15,8 @@ enum {CUS_REGIST=1, CUS_SEARCH, DVD_REGIST, DVD_SEARCH, DVD_RENT, DVD_RETURN, DV
 int main(void)
 {
 	int inputMenu = 0;
+
+    LoadFromFile();
 
 	while (1)
 	{
