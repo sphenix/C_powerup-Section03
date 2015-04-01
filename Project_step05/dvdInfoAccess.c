@@ -27,7 +27,7 @@ int AddDVDInfo(char *ISBN, char *title, int genre)
 	if (numOfDVD >= MAX_DVD)
 		return 0;
 
-	pDVD = (dvdInfo *)malloc(sizeof(dvdInfo));
+    pDVD = (dvdInfo *)malloc(sizeof(dvdInfo));
 	
 	strcpy(pDVD->ISBN, ISBN);
 	strcpy(pDVD->title, title);
@@ -183,8 +183,6 @@ int dvdStoreToFile(void)
     if ((fp = fopen(DVDINFOBKUP_FILE, "rb+")) == NULL)
     {
         fp = fopen(DVDINFOBKUP_FILE, "wb+");
-        fclose(fp);
-        return 0;
     }
 
     if (fp == NULL)

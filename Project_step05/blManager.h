@@ -19,7 +19,8 @@ void ReturnDVD(void);
 void ShowDVDRentAllCusInfo(void);
 void ShowDVDCusAllRentInfo(void);
 
-
+void initDATA(void);
+void endDATA(void);
 #endif
 /* end of file */
 

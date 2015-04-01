@@ -1,13 +1,14 @@
-/* Name : rentInfoAccess.c ver 1.1
+/* Name : rentInfoAccess.c ver 1.2
  * Content : DVD 대여 정보 저장/참조 함수들의 정의
  * Implementation : YSW
  * 
- * Last modified 2015/02/25
+ * Last modified 2015/04/02
  */
 #include "common.h"
 #include "rentInfo.h"
 #include "cusInfo.h"
 #include "cusInfoAccess.h"
+#include "rentInfoAccess.h"
 #include "screenOut.h"
 
 #define RENT_LEN    100
@@ -28,6 +29,8 @@ void AddRentList(char *ISBN, char *cusID, int rentDay)
     rentList[numOfRentCus].rentDay = rentDay;
 
     numOfRentCus++;
+
+    rentStoreToFile();
 }
 
 /* 함 수 : void PrintOutRentAllCusInfo(char *ISBN)
@@ -69,4 +72,88 @@ void PrintOutCusAllRentInfo(char *ID, unsigned int start, unsigned int end)
         }
     }
 }
+
+/* 함 수 : int rentLoadFromFile(void)
+ * 기 능 : 저장된 파일로 부터 데이터 읽기
+ * 반 환 : 성공하면 0, 실패하면 -1 반환
+ *
+ */
+int rentLoadFromFile(void)
+{   
+    FILE *fp;
+    int i;
+
+//  if (numOfCustomer >= MAX_CUSTOMER)
+//  return -1;
+    
+    if ((fp = fopen(RENTINFOBKUP_FILE, "rb+")) == NULL)
+    {
+        fp = fopen(RENTINFOBKUP_FILE, "wb+");
+        fclose(fp);
+        return 0;
+    }
+
+    if (fp == NULL)
+    {
+        fprintf(stderr, "rentinfo.dat error! \n");
+        return -1;
+    }
+
+	
+    fread(&numOfRentCus, sizeof(int), 1, fp);
+//  printf("read : numCus %d \n", numOfCustomer); 
+
+    for (i = 0; i < numOfRentCus; i++)
+    {
+        fread((void *)(rentList+i), sizeof(dvdRentInfo), 1, fp);
+        
+    }
+    
+    fclose(fp);
+
+	return 0;
+}
+
+
+/* 함 수 : int rentStoreToFile(void)
+ * 기 능 : 파일에 데이터 저장
+ * 반 환 : 성공하면 0, 실패하면 -1 반환
+ *
+ */
+int rentStoreToFile(void)
+{   
+    FILE *fp;
+    int i;
+
+    if (numOfRentCus >= RENT_LEN)
+		return -1;
+    
+    if ((fp = fopen(RENTINFOBKUP_FILE, "rb+")) == NULL)
+    {
+        fp = fopen(RENTINFOBKUP_FILE, "wb+");
+    }
+
+    if (fp == NULL)
+    {
+        fprintf(stderr, "rentinfo.dat error! \n");
+        return -1;
+    }
+
+	
+    fwrite(&numOfRentCus, sizeof(int), 1, fp);
+//  printf("read : numCus %d \n", numOfCustomer); 
+
+    for (i = 0; i < numOfRentCus; i++)
+    {
+        fwrite((void *)(rentList+i), sizeof(dvdRentInfo), 1, fp);
+    }
+    
+    fclose(fp);
+
+	return 0;
+}
+
+
+
+
 /* end of file */

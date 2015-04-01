@@ -142,8 +142,6 @@ int cusStoreToFile(void)
     if ((fp = fopen(CUSINFOBKUP_FILE, "rb+")) == NULL)
     {
         fp = fopen(CUSINFOBKUP_FILE, "wb+");
-        fclose(fp);
-        return 0;
     }
 
     if (fp == NULL)

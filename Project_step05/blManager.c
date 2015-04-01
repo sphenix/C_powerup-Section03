@@ -296,5 +296,30 @@ void ShowDVDCusAllRentInfo()
     getchar();
 }
 
+/* 함 수 : void initDATA(void)
+ * 기 능 : 초기 DATA 읽어오기. 
+ * 반 환 : void
+ *
+ */
+void initDATA(void)
+{
+    cusLoadFromFile();
+    dvdLoadFromFile();
+    rentLoadFromFile();
+}
+
+/* 함 수 : void endDATA(void)
+ * 기 능 : 모든 작업 DATA 저장하기. 
+ * 반 환 : void
+ *
+ */
+void endDATA(void)
+{
+    cusStoreToFile();
+    dvdStoreToFile();
+    rentStoreToFile();
+}
+
+
 /* end of file */
 

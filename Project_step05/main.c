@@ -16,8 +16,7 @@ int main(void)
 {
 	int inputMenu = 0;
 
-    cusLoadFromFile();
-    dvdLoadFromFile();
+    initDATA();
 
 	while (1)
 	{
@@ -63,7 +62,8 @@ int main(void)
 
 		if (inputMenu == QUIT)
 		{
-			puts("이용해 주셔서 고마워요~");
+			endDATA();
+            puts("이용해 주셔서 고마워요~");
 			break;
 		}
 	}
