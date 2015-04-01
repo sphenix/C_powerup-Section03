@@ -2,7 +2,7 @@
  * Content : DVD 정보 저장/참조 함수들의 정의
  * Implementation : YSW
  *
- * Last modified	2015/02/25
+ * Last modified	2015/03/29
  */
 
 #include "common.h"
@@ -37,6 +37,9 @@ int AddDVDInfo(char *ISBN, char *title, int genre)
 	// pDVD->numOfRentCus = 0;
 	
 	dvdList[numOfDVD++] = pDVD;
+
+    dvdStoreToFile();
+
 	return numOfDVD;
 }
 
@@ -117,4 +120,97 @@ int GetDVDRentState(char *ISBN)
 	
 	return pDVD->rentState;
 }
+
+/* 함 수 : int dvdLoadFromFile(void)
+ * 기 능 : 저장된 파일로 부터 데이터 읽기
+ * 반 환 : 성공하면 0, 실패하면 -1 반환
+ *
+ */
+int dvdLoadFromFile(void)
+{   
+	dvdInfo *pDVD;
+    FILE *fp;
+    int i;
+
+//  if (numOfCustomer >= MAX_CUSTOMER)
+//  return -1;
+    
+    if ((fp = fopen(DVDINFOBKUP_FILE, "rb+")) == NULL)
+    {
+        fp = fopen(DVDINFOBKUP_FILE, "wb+");
+        fclose(fp);
+        return 0;
+    }
+
+    if (fp == NULL)
+    {
+        fprintf(stderr, "dvdinfo.dat error! \n");
+        return -1;
+    }
+
+	
+    fread(&numOfDVD, sizeof(int), 1, fp);
+//  printf("read : numCus %d \n", numOfCustomer); 
+
+    for (i = 0; i < numOfDVD; i++)
+    {
+	    pDVD = (dvdInfo *)malloc(sizeof(dvdInfo));
+        fread((void *)pDVD, sizeof(dvdInfo), 1, fp);
+        
+    	dvdList[i] = pDVD;
+    }
+    
+    fclose(fp);
+
+	return 0;
+}
+
+
+/* 함 수 : int dvdStoreToFile(void)
+ * 기 능 : 파일에 데이터 저장
+ * 반 환 : 성공하면 0, 실패하면 -1 반환
+ *
+ */
+int dvdStoreToFile(void)
+{   
+	dvdInfo *pDVD;
+    FILE *fp;
+    int i;
+
+    if (numOfDVD >= MAX_DVD)
+		return -1;
+    
+    if ((fp = fopen(DVDINFOBKUP_FILE, "rb+")) == NULL)
+    {
+        fp = fopen(DVDINFOBKUP_FILE, "wb+");
+        fclose(fp);
+        return 0;
+    }
+
+    if (fp == NULL)
+    {
+        fprintf(stderr, "dvdinfo.dat error! \n");
+        return -1;
+    }
+
+	
+    fwrite(&numOfDVD, sizeof(int), 1, fp);
+//  printf("read : numCus %d \n", numOfCustomer); 
+
+    for (i = 0; i < numOfDVD; i++)
+    {
+        pDVD = dvdList[i]; 
+        fwrite((void *) pDVD, sizeof(dvdInfo), 1, fp);
+    }
+    
+    fclose(fp);
+
+	return 0;
+}
+
+
+
+
+
+
 /* end fo file */

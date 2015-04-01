@@ -17,6 +17,7 @@ int main(void)
 	int inputMenu = 0;
 
     cusLoadFromFile();
+    dvdLoadFromFile();
 
 	while (1)
 	{

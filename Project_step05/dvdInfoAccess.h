@@ -17,6 +17,8 @@ int IsRegistISBN(char *ISBN);
 int SetDVDRented(char *ISBN);
 int SetDVDReturned(char *ISBN);
 int GetDVDRentState(char *ISBN);
+int dvdLoadFromFile(void);
+int dvdStoreToFile(void);
 
 #endif
 /* end of file */

@@ -1,8 +1,8 @@
-/* Name : cusInfoAccess.c	ver	1.1
+/* Name : cusInfoAccess.c	ver	1.2
  * Content : 고객 정보 저장 및 참조 함수들의 정의
  * Implementation : YSW
  *
- * Last modified	2014/12/26
+ * Last modified	2015/03/29
  */
 #include "common.h"
 #include "cusInfo.h"
@@ -75,7 +75,7 @@ int IsRegistID(char *ID)
 		return 1;
 }
 
-/* 함 수 : int LoadFromFile(void)
+/* 함 수 : int cusLoadFromFile(void)
  * 기 능 : 저장된 파일로 부터 데이터 읽기
  * 반 환 : 성공하면 0, 실패하면 -1 반환
  *
@@ -125,7 +125,7 @@ int cusLoadFromFile(void)
 }
 
 
-/* 함 수 : int StoreToFile(void)
+/* 함 수 : int cusStoreToFile(void)
  * 기 능 : 파일에 데이터 저장
  * 반 환 : 성공하면 0, 실패하면 -1 반환
  *
